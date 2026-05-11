@@ -1,0 +1,68 @@
+---
+title: "API Lead → CDP Matching"
+emoji: "🎯"
+tagline: "API REST qui recommande le top 3 des Chargés de Projet (CDP) les plus adaptés pour chaque lead entrant, via un scoring multi-critères pondéré."
+category: "Machine Learning"
+status: "Production"
+period: "Stage M2 — 2025"
+role: "ML Engineer (Stage)"
+company: "Meet My Mama"
+tech: ["Python", "FastAPI", "pandas", "scikit-learn", "Docker"]
+featured: false
+order: 10
+---
+
+## Contexte
+
+Avant Pulse, l'affectation lead → CDP se faisait manuellement par le head of sales. Avec la croissance des leads entrants, le besoin d'objectiver et d'automatiser cette décision est devenu critique.
+
+## L'algorithme
+
+Score multi-critères pondéré :
+
+| Critère | Poids | Description |
+|---|---|---|
+| **Affinité sectorielle** | 50% | Historique de wins du CDP sur le secteur du lead + préférences déclarées |
+| **Disponibilité** | 30% | Charge de travail actuelle (deals ouverts pondérés par effort estimé) |
+| **Match séniorité ↔ complexité** | 20% | Adéquation entre l'expérience du CDP et la complexité estimée du deal |
+
+Sortie : **top 3 CDPs** avec score normalisé et explication par critère.
+
+## Architecture
+
+```
+┌─────────────────────┐
+│  POST /match-cdp    │
+│  {lead payload}     │
+└──────────┬──────────┘
+           ▼
+   ┌──────────────────────┐
+   │ Loader (CSV → DataFrame) │
+   │ - cdp_profiles            │
+   │ - cdp_secteur_perf        │
+   └──────────┬──────────┘
+              ▼
+   ┌──────────────────────┐
+   │ Scoring engine        │
+   │ - 3 sub-scores        │
+   │ - pondération         │
+   │ - normalisation       │
+   └──────────┬──────────┘
+              ▼
+   ┌──────────────────────┐
+   │ Top-3 + explanation   │
+   └──────────────────────┘
+```
+
+## Outputs explicables
+
+Le payload de retour contient pour chaque CDP recommandé :
+- Score global (0-100)
+- Décomposition par critère
+- "Pourquoi ce CDP ?" en langage naturel
+
+Cet aspect a été essentiel pour l'adoption — la sales team voulait comprendre **pourquoi** le système recommandait Untel.
+
+## Mon rôle
+
+Recueil du besoin avec head of sales, conception de l'algorithme, prep des datasets historiques (segmentation RFM, calcul des performances sectorielles), implémentation FastAPI, dockerisation.

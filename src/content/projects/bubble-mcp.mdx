@@ -1,0 +1,36 @@
+---
+title: "Bubble MCP"
+emoji: "🔌"
+tagline: "Serveur MCP qui expose n'importe quelle application Bubble.io à un assistant IA (Claude Desktop, etc.) avec auto-discovery du schéma."
+category: "Agent IA / LLM"
+status: "Production"
+period: "2025"
+role: "Maintainer"
+company: "Meet My Mama"
+tech: ["Node.js", "TypeScript", "MCP SDK", "Bubble.io Data API"]
+featured: false
+order: 5
+---
+
+## Pourquoi ce serveur
+
+Inside (l'outil métier interne) tourne sur Bubble.io. Pour que les assistants IA puissent lire / écrire dans cette base, il fallait un connecteur **standardisé** — d'où l'implémentation d'un serveur **MCP (Model Context Protocol)**.
+
+MCP est un protocole ouvert (initialement Anthropic, vendor-agnostic) qui standardise la communication entre LLMs et systèmes externes.
+
+## Capacités
+
+- **Auto-discovery** : découvre automatiquement les data types de l'app Bubble
+- **CRUD complet** sur tous les data types
+- **Workflow execution** : déclenche les API workflows définis dans Bubble
+- **Respect des privacy rules** de Bubble
+- **Mode read-only / read-write** configurable pour la sécurité
+- **Type-safe** : expose les types pour chaque opération
+
+## Compatibilité
+
+Compatible avec tout client MCP — Claude Desktop, Claude Code, IDEs, et n'importe quel agent qui implémente la spec MCP.
+
+## Mon rôle
+
+Architecture du serveur, mapping des data types Bubble vers les tool schemas MCP, gestion des privacy rules, packaging et documentation.

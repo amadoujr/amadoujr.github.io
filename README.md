@@ -1,51 +1,54 @@
-# Portfolio — Amadou Barro
+# amadoujr.github.io — Portfolio
 
-Portfolio personnel basé sur Jekyll + Minimal Mistakes, hébergé sur GitHub Pages.
+Site portfolio personnel d'**Amadou Barro** (AI & Data Engineer).
 
-## 🚀 Mise en ligne (5 étapes)
+Construit avec [Astro](https://astro.build) + Tailwind CSS v4. Déployé sur GitHub Pages via GitHub Actions.
 
-### 1. Créer le repo GitHub
-- Crée un nouveau repo nommé exactement : `amadoujr.github.io`
-- Clone-le en local
+## Stack
 
-### 2. Copier ces fichiers
-Copie tous les fichiers de ce dossier dans le repo cloné.
+- **Framework** : Astro 6 (output statique)
+- **Styling** : Tailwind CSS v4 (via `@tailwindcss/vite`)
+- **Contenu** : MDX (content collections)
+- **Code highlighting** : Shiki (`github-dark-dimmed`)
+- **Sitemap** : `@astrojs/sitemap`
 
-### 3. Ajouter ta photo
-Place ta photo dans `assets/images/avatar.jpg`
+## Développement local
 
-### 4. Mettre à jour les liens
-Dans `_config.yml`, mets à jour :
-- L'URL LinkedIn (ligne `url: "https://linkedin.com/in/..."`)
-
-### 5. Push et activer GitHub Pages
 ```bash
-git add .
-git commit -m "init portfolio"
-git push origin main
-```
-Ensuite dans les Settings du repo → Pages → Source : `main` / `root`
-
-Ton site sera en ligne à : **https://amadoujr.github.io** ✅
-
-## 📁 Structure
-
-```
-├── _config.yml          # Config principale (nom, bio, liens)
-├── _pages/
-│   ├── index.md         # Page d'accueil
-│   ├── projets.md       # Page projets
-│   └── cv.md            # Page CV
-├── assets/
-│   ├── images/
-│   │   └── avatar.jpg   # Ta photo (à ajouter)
-│   └── amadou_barro_cv.pdf  # Ton CV PDF (à ajouter)
-└── Gemfile
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # build statique dans ./dist
+npm run preview  # preview du build
 ```
 
-## ✏️ Modifier le contenu
+## Structure
 
-Tout est en Markdown — pas besoin de toucher au HTML.
-- Modifier la bio → `_config.yml`
-- Ajouter un projet → `_pages/projets.md`
-- Mettre à jour le CV → `_pages/cv.md`
+```
+src/
+├── content/projects/       # Fiches projet (MDX)
+├── content.config.ts       # Schéma de la collection
+├── layouts/Layout.astro    # Layout de base
+├── components/             # Nav, Footer, ProjectCard, TechBadge
+├── pages/
+│   ├── index.astro         # Accueil
+│   ├── projets/
+│   │   ├── index.astro     # Grille filtrable
+│   │   └── [...slug].astro # Page détail d'un projet
+│   ├── about.astro
+│   └── cv.astro
+└── styles/global.css       # Thème dark + tokens
+public/
+├── Amadou_Barro_CV.pdf
+└── favicon.svg
+```
+
+## Ajouter un projet
+
+Créer un nouveau fichier `.mdx` dans `src/content/projects/` avec le frontmatter requis (voir `content.config.ts` pour le schéma).
+
+## Déploiement
+
+Push sur `main` → GitHub Actions build + deploy sur GitHub Pages.
+
+Settings GitHub à activer :
+- Repository → Settings → Pages → Source : **GitHub Actions**

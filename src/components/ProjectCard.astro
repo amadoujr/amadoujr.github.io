@@ -1,0 +1,51 @@
+---
+import TechBadge from "./TechBadge.astro";
+
+const { project, featured = false } = Astro.props;
+const { data, id } = project;
+
+const statusColor = {
+  production: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  "en cours": "bg-amber-500/10 text-amber-400 border-amber-500/20",
+  académique: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+  produit: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+}[data.status?.toLowerCase()] ?? "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
+---
+
+<a
+  href={`/projets/${id}/`}
+  class={`group relative flex flex-col gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 transition-all hover:border-[var(--color-accent)]/50 hover:bg-[var(--color-surface-2)] ${
+    featured ? "md:col-span-2" : ""
+  }`}
+>
+  <div class="flex items-start justify-between gap-3">
+    <div class="flex items-center gap-2.5">
+      <span class="text-2xl">{data.emoji}</span>
+      <h3 class="text-lg font-semibold leading-tight text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+        {data.title}
+      </h3>
+    </div>
+    {data.status && (
+      <span class={`shrink-0 rounded-md border px-2 py-0.5 text-[10px] uppercase tracking-wider ${statusColor}`}>
+        {data.status}
+      </span>
+    )}
+  </div>
+
+  <p class="text-sm text-[var(--color-muted)] leading-relaxed line-clamp-3">
+    {data.tagline}
+  </p>
+
+  <div class="flex flex-wrap gap-1.5 mt-auto pt-2">
+    {data.tech?.slice(0, 5).map((t) => <TechBadge label={t} />)}
+    {data.tech?.length > 5 && (
+      <span class="font-mono text-xs text-[var(--color-muted)]">+{data.tech.length - 5}</span>
+    )}
+  </div>
+
+  <div class="absolute bottom-6 right-6 opacity-0 transition-opacity group-hover:opacity-100">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-accent)]">
+      <path d="M7 17L17 7M17 7H7M17 7V17"/>
+    </svg>
+  </div>
+</a>

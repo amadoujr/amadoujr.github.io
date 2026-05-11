@@ -1,0 +1,61 @@
+---
+title: "Pythia"
+emoji: "🧠"
+tagline: "Pipeline ML qui calcule chaque nuit la LTV (BG/NBD + Gamma-Gamma) et le score de churn de chaque client B2B, consommé par les dashboards Metabase."
+category: "Machine Learning"
+status: "Production"
+period: "2025"
+role: "ML Engineer"
+company: "Meet My Mama"
+tech: ["Python 3.11", "uv", "Typer", "lifetimes", "scikit-learn", "pandas", "psycopg 3", "Supabase", "Metabase", "structlog", "pytest"]
+featured: true
+order: 3
+---
+
+## Objectif
+
+> Pythia, la prêtresse de Delphes, délivrait des prophéties. Les nôtres prédisent **valeur client** et **churn** — même énergie.
+
+Donner aux sales et à la finance un score actionnable par client B2B pour prioriser les efforts commerciaux et anticiper les départs.
+
+## Ce que produit Pythia
+
+| Table | Grain | Refresh | Source |
+|---|---|---|---|
+| `ml.fact_client_ltv` | 1 ligne par entreprise | nightly 06:00 UTC | `ml.fact_project_clean` |
+| `ml.fact_client_churn` | 1 ligne par entreprise | nightly 06:10 UTC | `ml.client_360` |
+| `ml.model_runs` | 1 ligne par exécution | per run | — |
+
+## Approche modélisation
+
+### LTV — BG/NBD + Gamma-Gamma
+Le couple classique pour la LTV non-contractuelle :
+
+- **BG/NBD** modélise la probabilité de re-achat dans un horizon T (en fonction de recency, frequency, T)
+- **Gamma-Gamma** modélise le montant moyen par achat
+
+Score final = `expected_purchases(T) × expected_avg_value`, projeté à 12 mois.
+
+### Churn — Gradient Boosting
+Définition du churn : pas d'activité depuis > X jours (paramétrable). Features : recency, frequency, panier moyen, secteur, ancienneté, saisonnalité.
+
+## Stack & outillage
+
+Stack Python moderne :
+- **uv** pour la gestion des dépendances (10× plus rapide que pip)
+- **Typer** pour la CLI
+- **pydantic-settings** pour la config typée
+- **psycopg 3** pour PostgreSQL
+- **structlog** pour les logs structurés
+- **pytest + ruff + mypy** pour la qualité
+
+## Production
+
+- Cron Supabase déclenche le pipeline chaque nuit
+- Logs structurés JSON → Loki
+- Table `model_runs` pour observer drift, runtime, sample size
+- Tests unitaires + tests d'intégration sur DB de staging
+
+## Mon rôle
+
+Conception du pipeline, choix des modèles, packaging Python moderne, intégration au data warehouse Supabase, dashboards Metabase de monitoring.

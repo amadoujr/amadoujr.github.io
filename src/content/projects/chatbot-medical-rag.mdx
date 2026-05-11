@@ -1,0 +1,42 @@
+---
+title: "Chatbot Médical RAG"
+emoji: "🏥"
+tagline: "Système de question-réponse médical pour zones sinistrées. Architecture RAG avec modèles HuggingFace et interface Gradio."
+category: "Agent IA / LLM"
+status: "Académique"
+period: "Jan. – Mars 2025"
+role: "Projet académique"
+tech: ["Python", "HuggingFace Transformers", "RAG", "LangChain", "Gradio", "Streamlit"]
+featured: false
+order: 20
+---
+
+## Contexte
+
+Projet académique de fin d'études (Master 2 Machine Learning, Université de Lille) sur la **question-réponse médicale en zones sinistrées** — contextes où l'accès à un médecin humain est limité, mais où l'accès à internet basique reste possible.
+
+## Le problème
+
+Les LLMs généralistes hallucinent en médecine et donnent parfois des informations dangereuses. L'approche RAG permet de **contraindre les réponses** à une base documentaire validée (guides OMS, protocoles humanitaires, etc.).
+
+## Architecture RAG
+
+1. **Corpus médical** : ingestion de documents validés (guides cliniques, protocoles)
+2. **Chunking & embedding** : segmentation sémantique, embeddings via HuggingFace
+3. **Vector store** : recherche par similarité (top-k chunks)
+4. **Génération contextualisée** : LLM HuggingFace qui répond **uniquement** sur la base des chunks récupérés
+5. **Refus explicite** quand la question dépasse le corpus (safety first)
+
+## Interface
+
+Deux interfaces ont été développées : **Gradio** (rapide pour démo) et **Streamlit** (plus configurable). L'utilisateur pose sa question, voit la réponse + les **sources citées** (chunks utilisés).
+
+## Apprentissages
+
+- Importance du **prompt engineering** pour forcer le LLM à rester dans son contexte
+- Trade-off chunk size / recall : trop petit = perte de contexte, trop grand = bruit
+- Métriques d'évaluation RAG : faithfulness, answer relevancy, context precision
+
+## Mon rôle
+
+Conception, choix des modèles HuggingFace, implémentation RAG, conception des interfaces.

@@ -1,0 +1,89 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+
+const allProjects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const categories = [
+  "Tous",
+  "Agent IA / LLM",
+  "Data Engineering",
+  "Machine Learning",
+  "Produit",
+  "Autre",
+];
+---
+
+<Layout
+  current="projets"
+  title="Projets — Amadou Barro"
+  description="Sélection de projets data et IA — agents autonomes, RAG, ML, data warehouses, BI."
+>
+  <section class="container-page pt-16 pb-8">
+    <h1 class="text-5xl font-extrabold tracking-tight">Projets</h1>
+    <p class="mt-4 max-w-2xl text-lg text-[var(--color-muted)]">
+      Sélection de projets data et IA réalisés en production, en stage et en perso. Cliquez pour voir le détail.
+    </p>
+
+    <!-- Filters -->
+    <div class="mt-10 flex flex-wrap gap-2" id="filter-bar">
+      {categories.map((cat) => (
+        <button
+          type="button"
+          data-filter={cat}
+          class:list={[
+            "filter-btn rounded-full border px-4 py-1.5 text-sm transition-all",
+            cat === "Tous"
+              ? "border-[var(--color-accent)] bg-[var(--color-accent)] text-[var(--color-bg)] font-semibold"
+              : "border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-muted)] hover:border-[var(--color-accent)]/50 hover:text-[var(--color-text)]",
+          ]}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-page pb-24">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" id="projects-grid">
+      {allProjects.map((project) => (
+        <div data-category={project.data.category}>
+          <ProjectCard project={project} />
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const cards = document.querySelectorAll<HTMLElement>("#projects-grid > [data-category]");
+
+  function setActive(active: HTMLButtonElement) {
+    buttons.forEach((b) => {
+      const isActive = b === active;
+      b.classList.toggle("bg-[var(--color-accent)]", isActive);
+      b.classList.toggle("text-[var(--color-bg)]", isActive);
+      b.classList.toggle("border-[var(--color-accent)]", isActive);
+      b.classList.toggle("font-semibold", isActive);
+      b.classList.toggle("bg-[var(--color-surface)]", !isActive);
+      b.classList.toggle("text-[var(--color-muted)]", !isActive);
+      b.classList.toggle("border-[var(--color-border)]", !isActive);
+    });
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setActive(btn);
+      const filter = btn.dataset.filter ?? "Tous";
+      cards.forEach((card) => {
+        const cat = card.dataset.category;
+        const show = filter === "Tous" || cat === filter;
+        card.style.display = show ? "" : "none";
+      });
+    });
+  });
+</script>

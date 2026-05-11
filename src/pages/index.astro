@@ -1,0 +1,124 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import TechBadge from "../components/TechBadge.astro";
+
+const allProjects = await getCollection("projects");
+const featured = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const stackHighlights = [
+  { label: "Agents IA / LLMs", items: ["LangChain", "LangGraph", "MCP", "RAG", "OpenRouter", "Anthropic"] },
+  { label: "Data Engineering", items: ["Python", "SQL", "Supabase", "PostgreSQL", "dbt", "n8n", "Airflow"] },
+  { label: "Machine Learning", items: ["scikit-learn", "PyTorch", "BG/NBD", "Gamma-Gamma", "MLflow"] },
+  { label: "BI & Cloud", items: ["Metabase", "BigQuery", "GCP", "Railway"] },
+];
+---
+
+<Layout current="home">
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 grid-bg opacity-40"></div>
+    <div class="container-page relative pt-20 pb-24 sm:pt-28 sm:pb-32">
+      <div class="max-w-3xl fade-up">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-xs">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+          </span>
+          <span class="text-[var(--color-muted)]">Ouvert aux opportunités CDI</span>
+        </div>
+
+        <h1 class="text-5xl font-extrabold tracking-tight sm:text-7xl">
+          Amadou <span class="text-[var(--color-accent)]">Barro</span>
+        </h1>
+
+        <p class="mt-4 font-mono text-base text-[var(--color-muted)] sm:text-lg">
+          AI &amp; Data Engineer · Paris
+        </p>
+
+        <p class="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-muted)] sm:text-xl">
+          Je conçois et déploie des solutions <strong class="text-[var(--color-text)]">data</strong> et <strong class="text-[var(--color-text)]">IA</strong> end-to-end : pipelines ETL/ELT, data warehouses, <strong class="text-[var(--color-text)]">reporting BI (Metabase)</strong>, <strong class="text-[var(--color-text)]">agents IA autonomes</strong> et <strong class="text-[var(--color-text)]">assistants RAG</strong> en production.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a
+            href="/projets/"
+            class="inline-flex items-center gap-2 rounded-lg bg-[var(--color-accent)] px-5 py-2.5 text-sm font-semibold text-[var(--color-bg)] transition-transform hover:scale-[1.02]"
+          >
+            Voir mes projets
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a
+            href="/cv/"
+            class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-2.5 text-sm font-semibold transition-colors hover:border-[var(--color-accent)]/50"
+          >
+            Mon CV
+          </a>
+          <a
+            href="mailto:barroamadou961@gmail.com"
+            class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-2.5 text-sm font-semibold transition-colors hover:border-[var(--color-accent)]/50"
+          >
+            Me contacter
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="container-page py-16 border-t border-[var(--color-border)]">
+    <div class="mb-10">
+      <h2 class="text-3xl font-bold tracking-tight">Stack technique</h2>
+      <p class="mt-2 text-[var(--color-muted)]">
+        Mes outils du quotidien — de l'ingestion à la mise en production.
+      </p>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {stackHighlights.map((group) => (
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+          <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)]">{group.label}</h3>
+          <div class="flex flex-wrap gap-1.5">
+            {group.items.map((item) => <TechBadge label={item} />)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS -->
+  <section class="container-page py-16 border-t border-[var(--color-border)]">
+    <div class="mb-10 flex items-end justify-between gap-4 flex-wrap">
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight">Projets phares</h2>
+        <p class="mt-2 text-[var(--color-muted)]">
+          Sélection de projets en production ou ayant un impact direct.
+        </p>
+      </div>
+      <a href="/projets/" class="text-sm text-[var(--color-accent)] hover:underline">
+        Voir tous les projets →
+      </a>
+    </div>
+    <div class="grid gap-4 md:grid-cols-2">
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="container-page py-16 border-t border-[var(--color-border)]">
+    <div class="rounded-2xl border border-[var(--color-border)] bg-gradient-to-br from-[var(--color-surface)] to-[var(--color-surface-2)] p-10 text-center">
+      <h2 class="text-3xl font-bold tracking-tight">Discutons de votre projet</h2>
+      <p class="mx-auto mt-3 max-w-xl text-[var(--color-muted)]">
+        Je cherche un poste en CDI où je pourrai déployer des agents IA, structurer un data warehouse ou industrialiser des modèles ML en production. N'hésitez pas à me contacter.
+      </p>
+      <a
+        href="mailto:barroamadou961@gmail.com"
+        class="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-bg)] transition-transform hover:scale-[1.02]"
+      >
+        barroamadou961@gmail.com
+      </a>
+    </div>
+  </section>
+</Layout>

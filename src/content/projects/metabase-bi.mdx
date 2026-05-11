@@ -1,0 +1,66 @@
+---
+title: "Reporting & Dashboards Metabase"
+emoji: "📊"
+tagline: "Construction de l'écosystème BI Meet My Mama sur Metabase — dashboards exécutifs, sales, ops, et monitoring ML."
+category: "Data Engineering"
+status: "Production"
+period: "2025 — présent"
+role: "BI Engineer"
+company: "Meet My Mama"
+tech: ["Metabase", "SQL", "PostgreSQL", "Supabase"]
+cover: "/projects/metabase-logistics.png"
+featured: false
+order: 7
+---
+
+## Mission
+
+Donner à chaque équipe (founders, sales, ops, finance) une vision **temps quasi-réel** de ses KPIs sans devoir solliciter la data team.
+
+## Dashboards construits
+
+### Dashboard exécutif
+- CA / pipeline / win rate
+- Cohortes clients (rétention, expansion)
+- Top clients / top mamas
+- Health metrics globaux
+
+### Sales
+- Funnel par CDP (Chargé de Projet)
+- Performances sectorielles
+- Time-to-conversion
+- Forecast pipeline
+
+### Ops
+- Charge de travail par CDP
+- Délais de production
+- Qualité par chef
+
+### Monitoring ML (Pythia)
+- Drift des scores LTV / churn
+- Distribution des prédictions
+- Runtime pipeline + erreurs
+
+### Exemple : dashboard Ops Logistique
+
+Vue d'ensemble de l'activité courses : nombre, coût, vente, marge, distance moyenne. Filtres (année, type de course, réfrigéré), KPIs en haut, et drill-down par type de course et par transporteur en dessous.
+
+<img src="/projects/metabase-logistics.png" alt="Dashboard Metabase — KPIs Logistique" loading="lazy" class="rounded-xl border border-[var(--color-border)] my-6" />
+
+## Choix techniques
+
+### Pourquoi Metabase ?
+- Open-source (auto-hébergeable, pas de lock-in)
+- Excellente UX pour les non-techs (sales/ops peuvent créer leurs propres questions)
+- SQL editor puissant pour les use cases complexes
+- Modèles + segments pour normaliser les métriques
+
+### Patterns appliqués
+- **Modèles** : abstraction des marts dbt pour cacher le SQL technique
+- **Segments globaux** : "Clients actifs", "Prospects qualifiés" — définition unique partout
+- **Filtres liés** par dashboard pour cross-filtering
+- **Permissions par groupe** pour isoler les données sensibles
+
+## Mon rôle
+
+Construction de l'instance, modélisation des questions/modèles, design des dashboards, formation des équipes pour qu'elles puissent créer leurs propres analyses.
