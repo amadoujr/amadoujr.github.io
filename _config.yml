@@ -1,0 +1,55 @@
+title: "Amadou Barro"
+subtitle: "AI & Data Engineer"
+description: "AI & Data Engineer spécialisé en pipelines de données, agents IA autonomes et assistants RAG."
+url: "https://amadoujr.github.io"
+
+# Theme
+remote_theme: mmistakes/minimal-mistakes
+minimal_mistakes_skin: "dark" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
+# Author
+author:
+  name: "Amadou Barro"
+  avatar: "/assets/images/avatar.jpg" # à remplacer par ta photo
+  bio: "AI & Data Engineer · Master 2 Machine Learning · Agents IA & RAG en production"
+  location: "Paris, France"
+  email: "barroamadou961@gmail.com"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/amadoujr"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://linkedin.com/in/amadoujr" # à mettre à jour
+
+# Site settings
+locale: "fr-FR"
+timezone: "Europe/Paris"
+encoding: "utf-8"
+
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
+
+# Navigation
+navigation:
+  main:
+    - title: "À propos"
+      url: /
+    - title: "Projets"
+      url: /projets/
+    - title: "CV"
+      url: /cv/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
