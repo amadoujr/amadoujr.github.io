@@ -10,7 +10,7 @@ minimal_mistakes_skin: "dark" # "default", "air", "aqua", "contrast", "dark", "d
 # Author
 author:
   name: "Amadou Barro"
-  avatar: "/assets/images/avatar.jpg" # à remplacer par ta photo
+  avatar: "/assets/images/gemini_v6.png" # à remplacer par ta photo
   bio: "AI & Data Engineer · Master 2 Machine Learning · Agents IA & RAG en production"
   location: "Paris, France"
   email: "barroamadou961@gmail.com"
