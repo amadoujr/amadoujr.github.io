@@ -1,0 +1,59 @@
+---
+title: "Agri-Smart Mauritania"
+emoji: "🌱"
+tagline: "Système d'irrigation intelligent pour l'agriculture mauritanienne. Recommandations basées sur des calculs scientifiques d'évapotranspiration et la météo temps réel."
+category: "Produit"
+status: "Produit"
+period: "2025 — en développement"
+role: "Founder · Full Stack"
+tech: ["Python", "Streamlit", "Open-Meteo API", "FastAPI", "PostgreSQL"]
+featured: false
+order: 15
+---
+
+## Vision
+
+Aider les agriculteurs mauritaniens à **optimiser l'irrigation** dans un contexte de stress hydrique croissant. Beaucoup d'eau gaspillée par manque de données et d'outils adaptés au terrain (climat saharien, cultures locales, ressources limitées).
+
+> ⚠️ Ce projet est en cours de développement en vue d'une commercialisation. Cette page présente le produit et ses choix techniques sans exposer l'implémentation propriétaire.
+
+## Ce que fait Agri-Smart
+
+**Recommandations d'irrigation personnalisées** basées sur :
+
+- 🌤️ **Données météo temps réel** (Open-Meteo API — forecast et historique)
+- 🧮 **Calculs scientifiques d'évapotranspiration de référence (ETo)** via la méthode **Penman-Monteith FAO-56**
+- 🌱 **Base de données des cultures locales** (riz, maïs, tomate, oignon, dattier…) avec coefficients culturaux Kc par stade de croissance
+- 💧 **Propriétés du sol** et conditions locales
+
+L'utilisateur saisit sa parcelle, sa culture et son stade phénologique. Le système retourne : **combien d'eau, quand, pourquoi**.
+
+## Pourquoi Penman-Monteith FAO-56 ?
+
+C'est la méthode de référence FAO pour calculer l'ETo. Elle prend en compte température, humidité, vent, rayonnement solaire — donc beaucoup plus précise que les modèles empiriques simples. Adapté au climat saharien.
+
+## Stack technique
+
+| Composant | Choix |
+|---|---|
+| Frontend MVP | Streamlit (itération rapide, public technique) |
+| Backend | FastAPI |
+| DB | PostgreSQL |
+| Source météo | Open-Meteo (gratuit, fiable, mondial) |
+| Hébergement | À définir (Railway / VPS) |
+
+## Roadmap
+
+- [x] Récupération données météo Open-Meteo
+- [x] Calcul ETo (Penman-Monteith FAO-56)
+- [x] Base cultures mauritaniennes (V1)
+- [x] Moteur de recommandations d'irrigation
+- [x] UI Streamlit V1
+- [ ] API REST FastAPI
+- [ ] Historique & analytics par parcelle
+- [ ] Version mobile-first (terrain)
+- [ ] Pilote terrain Mauritanie
+
+## Pourquoi ce projet me tient à cœur
+
+Lien personnel avec la Mauritanie + conviction que l'IA et la data ont un impact réel et concret quand elles sont appliquées à des problèmes terrain — pas seulement aux SaaS B2B.

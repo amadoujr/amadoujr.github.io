@@ -1,0 +1,60 @@
+---
+title: "Automatisations n8n"
+emoji: "⚡"
+tagline: "Workflows no-code/low-code n8n pour automatiser les processus métier — webhooks Salesforce, sync Attio, notifications Slack, enrichissement de leads."
+category: "Data Engineering"
+status: "Production"
+period: "2025"
+role: "Data Engineer"
+company: "Meet My Mama"
+tech: ["n8n", "Webhooks", "Salesforce API", "Attio API", "Slack API", "Supabase", "JavaScript"]
+featured: false
+order: 8
+---
+
+## L'approche
+
+n8n permet de couvrir **80% des automatisations** sans écrire de code custom, et de garder une visibilité claire sur chaque workflow (drag & drop, logs intégrés, retries). Pour les 20% restants, j'écris du code Python ou des edge functions.
+
+## Workflows mis en place
+
+### Sync inter-outils
+- **Salesforce ↔ Supabase** : nouvelles entreprises créées dans Salesforce → upsert dans Supabase
+- **Supabase → Attio** : nouveaux deals → création de records Attio
+- **Bubble → Supabase** : webhooks Bubble pour les events critiques
+
+### Enrichissement de leads
+- Webhook depuis le formulaire de contact
+- Appel à Company Enrich API pour récupérer industry / size / location
+- Score initial (RFM-like)
+- Création du lead dans Salesforce + Attio + notification Slack au CDP assigné
+
+### Notifications & alertes
+- Alertes Slack sur seuils business (CA mensuel, pipeline qui descend, etc.)
+- Notifications sur erreurs ETL (avec contexte structuré)
+
+### Reporting récurrent
+- Génération de rapports hebdomadaires automatisés
+- Push dans Slack avec liens vers Metabase
+
+## Bonnes pratiques appliquées
+
+- **Idempotence** : tous les workflows peuvent être rejoués sans effet de bord
+- **Error handling** : nœuds d'erreur explicites avec notification Slack
+- **Variables d'environnement** pour les secrets
+- **Documentation inline** dans chaque workflow
+
+## Quand n8n vs code custom ?
+
+| Use case | Outil |
+|---|---|
+| Sync simple A → B | n8n |
+| Notifications conditionnelles | n8n |
+| Enrichissement multi-API | n8n |
+| Pipeline ML | Python custom |
+| Logique métier complexe | Python custom |
+| Transformations SQL | dbt |
+
+## Mon rôle
+
+Architecture, conception et maintenance de l'écosystème n8n, choix de l'auto-hébergement, intégrations avec les APIs internes/externes.

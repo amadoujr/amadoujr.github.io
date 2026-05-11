@@ -1,0 +1,53 @@
+---
+title: "Segmentation RFM & Prospection"
+emoji: "🎯"
+tagline: "Segmentation RFM des entreprises, scoring de prospects et orchestration multi-sources pour la prospection B2B."
+category: "Data Engineering"
+status: "Production"
+period: "Stage M2 — 2025"
+role: "Data Engineer (Stage)"
+company: "Meet My Mama"
+tech: ["Python", "pandas", "scikit-learn", "Attio API", "Salesforce", "Jupyter"]
+featured: false
+order: 11
+---
+
+## Contexte
+
+Refonte du process de prospection B2B chez Meet My Mama. Objectif : passer d'une prospection à l'intuition à une prospection **data-driven**.
+
+## Briques construites
+
+### 1. Segmentation RFM
+Calcul des scores **Recency / Frequency / Monetary** sur la base client historique, puis clustering pour identifier les profils (champions, à risque, dormants, etc.).
+
+### 2. Scoring prospects "Everlost"
+Identification et scoring des prospects "everlost" — ceux qui ont eu un contact mais n'ont pas converti. Réactivation prioritaire des plus prometteurs.
+
+### 3. Enrichissement multi-sources
+Pipeline d'enrichissement via Company Enrich API :
+- Domain extraction depuis le website
+- Récupération industry / size / location / tech stack
+- Gestion du rate limiting, retries, logging
+- Tracking des companies skipped/failed
+
+### 4. Préparation Attio
+Mapping et import des données prospect dans Attio (nouveau CRM). Spec de mapping documentée pour reproductibilité.
+
+## Stack & organisation
+
+Repository organisé par thématique :
+```
+prospection/
+├── segmentation_rfm/      # RFM + clustering
+├── historical_deals/       # Q4 2024, 2025
+├── everlost/               # Scoring everlost
+├── attio/                  # Import Attio
+└── shared/                 # Utilitaires communs
+```
+
+Code / input / output / docs séparés par projet — chaque brique est rejouable indépendamment.
+
+## Mon rôle
+
+Conception et implémentation complète, en lien direct avec la sales team pour valider les segments et les seuils de scoring.

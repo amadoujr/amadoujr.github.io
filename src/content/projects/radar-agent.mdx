@@ -1,0 +1,42 @@
+---
+title: "Radar-Agent"
+emoji: "📡"
+tagline: "Agent de veille IA construit avec LangGraph. Surveille les sources tech en temps réel et produit des résumés ciblés."
+category: "Agent IA / LLM"
+status: "En cours"
+period: "2025 — en cours"
+role: "Personal project"
+tech: ["Python", "LangGraph", "LangSmith", "uv", "Anthropic API"]
+featured: false
+order: 12
+---
+
+## Le projet
+
+Radar-Agent est un projet personnel qui sert de **terrain d'expérimentation** sur LangGraph et les architectures multi-agent.
+
+## L'idée
+
+Un agent qui :
+1. Monitore en continu un set de sources tech (RSS, Twitter/X, GitHub trending, papers arXiv)
+2. Filtre par thématiques d'intérêt (IA, MLOps, agents, data engineering)
+3. Synthétise les pépites du jour en résumé court
+4. Pousse le résumé sur le canal de mon choix (Slack / mail / dashboard)
+
+## Stack & choix techniques
+
+- **LangGraph** : orchestration des agents comme graphe d'états (vs chaîne linéaire LangChain classique)
+- **LangSmith** : observability des runs (debugging des prompts, latence, coût)
+- **uv** : packaging Python moderne
+- **Anthropic API** : Claude pour le ranking et la synthèse
+
+## État actuel
+
+En cours de développement. Les briques individuelles fonctionnent (fetchers, scoring, synthèse). Travail en cours : assemblage en graphe LangGraph + interface de configuration.
+
+## Pourquoi c'est intéressant
+
+Au-delà du produit, ce projet me permet de :
+- Maîtriser LangGraph (vs LangChain classique)
+- Expérimenter sur des patterns multi-agent (planner → fetcher → ranker → writer)
+- Comparer Claude vs GPT vs DeepSeek sur des tâches concrètes

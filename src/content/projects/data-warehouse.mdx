@@ -1,0 +1,68 @@
+---
+title: "Data Warehouse Meet My Mama"
+emoji: "🏗️"
+tagline: "Conception, optimisation et maintenance du data warehouse Supabase. Modélisation par marts, transformations dbt, migration depuis Bubble."
+category: "Data Engineering"
+status: "Production"
+period: "2025 — présent"
+role: "Data Engineer"
+company: "Meet My Mama"
+tech: ["PostgreSQL", "Supabase", "dbt", "SQL", "Python", "n8n", "Salesforce API"]
+featured: false
+order: 6
+---
+
+## Vue d'ensemble
+
+Le data warehouse est la fondation sur laquelle reposent **Pulse**, **Pythia**, et tous les dashboards Metabase. Trois grands chantiers :
+
+1. **Pipelines ETL** Salesforce → Supabase (ingestion + transformations)
+2. **Migration historique** Bubble → Supabase (consolidation des sources)
+3. **Modélisation analytique** avec dbt (staging → intermediate → marts)
+
+## Architecture en couches
+
+```
+Sources (Salesforce, Bubble, n8n exports, Slack, …)
+        │
+        ▼
+   raw.*    (ingestion brute)
+        │
+        ▼  dbt staging
+   stg.*    (typage, nettoyage léger)
+        │
+        ▼  dbt intermediate
+   int.*    (logique métier réutilisable)
+        │
+        ▼  dbt marts
+   mart.*   (modèles dimensionnels — fact / dim)
+   ml.*     (matviews consommées par Pythia)
+```
+
+## Ingestion ETL
+
+### Salesforce → Supabase
+Pipelines Python qui :
+- Lisent l'API Salesforce avec gestion du rate limiting et de la pagination cursor
+- Détectent les changements (`SystemModstamp > last_sync`)
+- Upsert dans Supabase avec `ON CONFLICT` + audit columns
+
+### Automatisation n8n
+Workflows n8n pour les ingestions plus simples (Webhook → enrichment → DB) et pour orchestrer des séquences cross-tools (Slack notify, Attio sync, etc.).
+
+## Migration Bubble → Supabase
+
+Bubble n'est pas conçu pour l'analytique. Migration progressive des entités critiques (companies, projects, contacts) vers Supabase avec :
+- Mapping des champs Bubble → schéma relationnel
+- Dédup et résolution d'identité (mêmes entreprises avec orthographes différentes)
+- Backfill historique + sync continue
+
+## Modélisation dbt
+
+- Tests sur les contraintes business critiques
+- Documentation auto-générée
+- CI sur PRs : build incrémental + tests
+
+## Mon rôle
+
+Conception du schéma cible, écriture des modèles dbt, des pipelines d'ingestion Salesforce, automatisations n8n, et migration Bubble → Supabase.

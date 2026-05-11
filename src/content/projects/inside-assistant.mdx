@@ -1,0 +1,66 @@
+---
+title: "Inside Assistant"
+emoji: "💬"
+tagline: "Chatbot RAG interne qui répond aux questions sur l'outil métier Inside, alimenté en continu par les conversations du channel Slack #SOS-INSIDE."
+category: "Agent IA / LLM"
+status: "Production"
+period: "2025"
+role: "AI Engineer"
+company: "Meet My Mama"
+tech: ["FastAPI", "Python", "React", "Supabase pgvector", "OpenAI Embeddings", "Claude Sonnet", "Railway", "Slack API"]
+cover: "/projects/inside-assistant.png"
+featured: true
+order: 2
+---
+
+## Le problème
+
+Inside est l'outil de gestion central de Meet My Mama (CRM + ops). Beaucoup de questions récurrentes se posaient sur Slack dans `#SOS-INSIDE` : "Comment annuler une presta ?", "Où je modifie une facture ?", etc. Les mêmes réponses, écrites par les mêmes personnes, dans des fils Slack qui se perdaient.
+
+**L'idée** : transformer cette conversation collective en knowledge base interrogeable.
+
+## L'architecture RAG
+
+```
+Slack #SOS-INSIDE
+       │
+       ▼ (ingestion cron — Railway)
+   Fetch → Clean → Chunk → Embed
+       │
+       ▼
+   Supabase (pgvector)
+   knowledge_chunks + embeddings
+       │
+       ▼ (query)
+   Embed query → cosine similarity → top-k chunks
+       │
+       ▼
+   Claude Sonnet (via OpenRouter) + chunks → réponse
+       │
+       ▼
+   Frontend React  /  Widget iframe (intégré dans Inside)
+```
+
+## Détails techniques
+
+### Pipeline d'ingestion
+Cron quotidien qui :
+1. Récupère les nouveaux messages du channel via l'API Slack
+2. Filtre les bruits (réactions, joins, etc.)
+3. Reconstruit les fils complets (question + réponses validées)
+4. Chunke par fil avec overlap sémantique
+5. Génère les embeddings avec `text-embedding-3-small`
+6. Upsert dans Supabase avec déduplication par hash
+
+### Recherche hybride
+Cosine similarity sur pgvector + filtres par tags (catégorie, date) pour éviter le bruit. Top-5 chunks injectés dans le prompt.
+
+### LLM choisi : Claude Sonnet
+Meilleur sur le français et sur la rétention fidèle des chunks (peu d'hallucinations sur ce type de QA).
+
+### Déploiement
+Backend FastAPI + frontend React + cron tous trois sur Railway. Variables d'environnement gérées via Railway. Logs structurés.
+
+## Mon rôle
+
+Conception complète, du pipeline d'ingestion Slack au widget intégrable dans Bubble (Inside tourne sur Bubble). Choix techniques (Supabase pgvector plutôt que Pinecone pour rester sur la même infra).

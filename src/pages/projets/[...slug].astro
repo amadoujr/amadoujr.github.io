@@ -1,0 +1,122 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import TechBadge from "../../components/TechBadge.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+
+const statusColor = {
+  production: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  "en cours": "bg-amber-500/10 text-amber-400 border-amber-500/20",
+  académique: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+  produit: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+}[d.status?.toLowerCase() ?? ""] ?? "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
+---
+
+<Layout
+  current="projets"
+  title={`${d.title} — Amadou Barro`}
+  description={d.tagline}
+>
+  <article class="container-page max-w-4xl py-16">
+    <!-- Back link -->
+    <a href="/projets/" class="inline-flex items-center gap-2 text-sm text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Tous les projets
+    </a>
+
+    {d.cover && (
+      <div class="mt-8 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
+        <img
+          src={d.cover}
+          alt={`Aperçu de ${d.title}`}
+          loading="lazy"
+          class="w-full h-auto"
+        />
+      </div>
+    )}
+
+    <!-- Header -->
+    <header class="mt-8 border-b border-[var(--color-border)] pb-10">
+      <div class="flex items-start gap-4">
+        <span class="text-5xl">{d.emoji}</span>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <span class="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">{d.category}</span>
+            {d.status && (
+              <span class={`rounded-md border px-2 py-0.5 text-[10px] uppercase tracking-wider ${statusColor}`}>
+                {d.status}
+              </span>
+            )}
+          </div>
+          <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">{d.title}</h1>
+          <p class="mt-4 text-lg text-[var(--color-muted)] leading-relaxed">
+            {d.tagline}
+          </p>
+        </div>
+      </div>
+
+      <!-- Meta -->
+      <dl class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--color-muted)]">Période</dt>
+          <dd class="mt-1 text-sm font-medium">{d.period}</dd>
+        </div>
+        {d.role && (
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-[var(--color-muted)]">Rôle</dt>
+            <dd class="mt-1 text-sm font-medium">{d.role}</dd>
+          </div>
+        )}
+        {d.company && (
+          <div>
+            <dt class="text-xs uppercase tracking-wider text-[var(--color-muted)]">Contexte</dt>
+            <dd class="mt-1 text-sm font-medium">{d.company}</dd>
+          </div>
+        )}
+        <div>
+          <dt class="text-xs uppercase tracking-wider text-[var(--color-muted)]">Stack</dt>
+          <dd class="mt-1 text-sm font-medium">{d.tech.length} techno{d.tech.length > 1 ? "s" : ""}</dd>
+        </div>
+      </dl>
+
+      <!-- Tech badges -->
+      <div class="mt-8 flex flex-wrap gap-1.5">
+        {d.tech.map((t) => <TechBadge label={t} />)}
+      </div>
+
+      <!-- External links -->
+      {(d.repoUrl || d.demoUrl) && (
+        <div class="mt-8 flex flex-wrap gap-3">
+          {d.repoUrl && (
+            <a href={d.repoUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm hover:border-[var(--color-accent)]/50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.866-.014-1.7-2.782.603-3.369-1.34-3.369-1.34-.455-1.157-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.003.071 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.087.636-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.748-1.025 2.748-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.31.678.92.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
+              Code source
+            </a>
+          )}
+          {d.demoUrl && (
+            <a href={d.demoUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold text-[var(--color-bg)] transition-transform hover:scale-[1.02]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+              Démo live
+            </a>
+          )}
+        </div>
+      )}
+    </header>
+
+    <!-- Content -->
+    <div class="prose-custom mt-10">
+      <Content />
+    </div>
+  </article>
+</Layout>

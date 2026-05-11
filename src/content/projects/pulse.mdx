@@ -1,0 +1,82 @@
+---
+title: "Pulse"
+emoji: "🤖"
+tagline: "Agent IA agentique qui explore le data warehouse en langage naturel et répond aux questions business avec visualisations auto-générées."
+category: "Agent IA / LLM"
+status: "Production"
+period: "2025 — présent"
+role: "Lead AI Engineer"
+company: "Meet My Mama"
+tech: ["TypeScript", "React", "Supabase Edge Functions", "PostgreSQL", "OpenRouter", "DeepSeek", "Gemini", "MCP-like Tool Calling"]
+cover: "/projects/pulse-chat.png"
+featured: true
+order: 1
+---
+
+## Le contexte
+
+Chez Meet My Mama, les équipes ops, sales et finance demandaient quotidiennement des extractions SQL à l'équipe data ("CA du mois ?", "Top 10 clients Q1 ?", "Taux de churn par cohorte ?"). Pulse a été conçu pour leur donner un accès **direct, autonome et fiable** au data warehouse — en langage naturel.
+
+## Ce que fait Pulse
+
+Un agent IA **agentique** : le LLM n'a pas simplement accès au schéma. Il **raisonne en plusieurs étapes** :
+
+1. Comprend la question business
+2. Explore le schéma de la base
+3. Échantillonne les données pour valider ses hypothèses
+4. Écrit le SQL
+5. Génère la visualisation appropriée (KPI, line chart, bar chart…)
+6. Propose des questions de follow-up
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Frontend (React + Vite)                    │
+│  · ChatView avec animation "agent thinking"                  │
+│  · Typeahead IA · Génération de follow-ups                   │
+└─────────────────────────┬───────────────────────────────────┘
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Supabase Edge Functions (Deno)                  │
+│  · data-chat       — agent principal + tool calling          │
+│  · suggest-questions — suggestions IA                        │
+│  · generate-title    — titres de conversation                │
+└─────────────────────────┬───────────────────────────────────┘
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      OpenRouter API                          │
+│   Primary: deepseek-chat (excellent SQL, peu cher)           │
+│   Fallback: gemini-2.5-flash                                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Caractéristiques techniques
+
+### Tool calling MCP-like
+6 outils exposés au LLM : `list_tables`, `describe_table`, `sample_rows`, `execute_sql`, `save_chart`, `validate_query`. L'agent choisit lui-même la séquence d'appels.
+
+### Multi-agent router
+Le routeur classifie la requête entrante et la dispatche vers le bon agent (Pulse pour la data, Inside pour les questions sur l'outil interne).
+
+### Système d'apprentissage
+Les requêtes validées par les utilisateurs sont stockées et injectées en *few-shot* pour améliorer la précision sur des questions similaires.
+
+### Bot Slack
+Pulse répond aussi directement dans Slack avec gestion de clarifications (l'agent pose une question quand la demande est ambiguë).
+
+### Aperçu en action
+
+Pulse renvoie systématiquement la donnée brute (table exportable en CSV) **et** une visualisation (KPI / chart) générée automatiquement. L'utilisateur peut valider ou rejeter la réponse — feedback qui alimente le système d'apprentissage.
+
+<img src="/projects/pulse-data.png" alt="Pulse — résultat avec table de deals et KPI nombre de deals" loading="lazy" class="rounded-xl border border-[var(--color-border)] my-6" />
+
+## Impact
+
+- **Time-to-answer** divisé par ~10 pour les questions data récurrentes
+- L'équipe data se concentre sur le data engineering, plus sur les extractions ad-hoc
+- Adoption interne forte : utilisé quotidiennement par ops, sales, founders
+
+## Mon rôle
+
+Conception bout-en-bout : architecture agent, prompt engineering, edge functions, intégration Slack, UI React, multi-agent routing.
