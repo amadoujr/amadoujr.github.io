@@ -1,5 +1,5 @@
 ---
-title: "Pythia"
+title: "Modèles prédictifs LTV & churn"
 emoji: "🧠"
 tagline: "Pipeline ML qui calcule chaque nuit la LTV (BG/NBD + Gamma-Gamma) et le score de churn de chaque client B2B, consommé par les dashboards Metabase."
 category: "Machine Learning"
@@ -7,6 +7,7 @@ status: "Production"
 period: "2025"
 role: "ML Engineer"
 company: "Meet My Mama"
+context: "Meet My Mama"
 tech: ["Python 3.11", "uv", "Typer", "lifetimes", "scikit-learn", "pandas", "psycopg 3", "Supabase", "Metabase", "structlog", "pytest"]
 featured: true
 order: 3
@@ -14,16 +15,14 @@ order: 3
 
 ## Objectif
 
-> Pythia, la prêtresse de Delphes, délivrait des prophéties. Les nôtres prédisent **valeur client** et **churn** — même énergie.
+Donner aux équipes sales et finance un score actionnable par client B2B pour prioriser les efforts commerciaux et anticiper les départs.
 
-Donner aux sales et à la finance un score actionnable par client B2B pour prioriser les efforts commerciaux et anticiper les départs.
-
-## Ce que produit Pythia
+## Ce que produit le pipeline
 
 | Table | Grain | Refresh | Source |
 |---|---|---|---|
-| `ml.fact_client_ltv` | 1 ligne par entreprise | nightly 06:00 UTC | `ml.fact_project_clean` |
-| `ml.fact_client_churn` | 1 ligne par entreprise | nightly 06:10 UTC | `ml.client_360` |
+| `ml.fact_client_ltv` | 1 ligne par entreprise | nightly 06:00 UTC | matview projets nettoyés |
+| `ml.fact_client_churn` | 1 ligne par entreprise | nightly 06:10 UTC | matview client 360 |
 | `ml.model_runs` | 1 ligne par exécution | per run | — |
 
 ## Approche modélisation
