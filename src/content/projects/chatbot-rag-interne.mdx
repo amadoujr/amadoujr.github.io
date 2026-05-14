@@ -1,28 +1,29 @@
 ---
-title: "Inside Assistant"
+title: "Chatbot RAG d'assistance interne"
 emoji: "💬"
-tagline: "Chatbot RAG interne qui répond aux questions sur l'outil métier Inside, alimenté en continu par les conversations du channel Slack #SOS-INSIDE."
+tagline: "Chatbot RAG interne qui répond aux questions sur l'outil métier de l'entreprise, alimenté en continu par les conversations du channel Slack support."
 category: "Agent IA / LLM"
 status: "Production"
 period: "2025"
 role: "AI Engineer"
 company: "Meet My Mama"
+context: "Meet My Mama"
 tech: ["FastAPI", "Python", "React", "Supabase pgvector", "OpenAI Embeddings", "Claude Sonnet", "Railway", "Slack API"]
-cover: "/projects/inside-assistant.png"
+cover: "/projects/chatbot-rag-interne.png"
 featured: true
 order: 2
 ---
 
 ## Le problème
 
-Inside est l'outil de gestion central de Meet My Mama (CRM + ops). Beaucoup de questions récurrentes se posaient sur Slack dans `#SOS-INSIDE` : "Comment annuler une presta ?", "Où je modifie une facture ?", etc. Les mêmes réponses, écrites par les mêmes personnes, dans des fils Slack qui se perdaient.
+L'outil de gestion central de l'entreprise (CRM + ops) générait beaucoup de questions récurrentes sur le channel Slack support : "Comment annuler une presta ?", "Où je modifie une facture ?", etc. Les mêmes réponses, écrites par les mêmes personnes, dans des fils Slack qui se perdaient.
 
 **L'idée** : transformer cette conversation collective en knowledge base interrogeable.
 
 ## L'architecture RAG
 
 ```
-Slack #SOS-INSIDE
+Slack #support
        │
        ▼ (ingestion cron — Railway)
    Fetch → Clean → Chunk → Embed
@@ -38,7 +39,7 @@ Slack #SOS-INSIDE
    Claude Sonnet (via OpenRouter) + chunks → réponse
        │
        ▼
-   Frontend React  /  Widget iframe (intégré dans Inside)
+   Frontend React  /  Widget iframe (intégré dans l'outil métier)
 ```
 
 ## Détails techniques
@@ -63,4 +64,4 @@ Backend FastAPI + frontend React + cron tous trois sur Railway. Variables d'envi
 
 ## Mon rôle
 
-Conception complète, du pipeline d'ingestion Slack au widget intégrable dans Bubble (Inside tourne sur Bubble). Choix techniques (Supabase pgvector plutôt que Pinecone pour rester sur la même infra).
+Conception complète, du pipeline d'ingestion Slack au widget intégrable dans l'outil métier (qui tourne sur Bubble.io). Choix techniques (Supabase pgvector plutôt que Pinecone pour rester sur la même infra).

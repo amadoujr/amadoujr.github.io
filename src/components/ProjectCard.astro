@@ -10,6 +10,18 @@ const statusColor = {
   académique: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   produit: "bg-purple-500/10 text-purple-400 border-purple-500/20",
 }[data.status?.toLowerCase()] ?? "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
+
+const contextStyle = {
+  "Meet My Mama": "text-[var(--color-muted)]",
+  "Personnel": "text-emerald-400",
+  "Académique": "text-blue-400",
+}[data.context] ?? "text-[var(--color-muted)]";
+
+const contextIcon = {
+  "Meet My Mama": "💼",
+  "Personnel": "🚀",
+  "Académique": "🎓",
+}[data.context] ?? "";
 ---
 
 <a
@@ -19,11 +31,16 @@ const statusColor = {
   }`}
 >
   <div class="flex items-start justify-between gap-3">
-    <div class="flex items-center gap-2.5">
-      <span class="text-2xl">{data.emoji}</span>
-      <h3 class="text-lg font-semibold leading-tight text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
-        {data.title}
-      </h3>
+    <div class="flex items-center gap-2.5 min-w-0">
+      <span class="text-2xl shrink-0">{data.emoji}</span>
+      <div class="min-w-0">
+        <h3 class="text-lg font-semibold leading-tight text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
+          {data.title}
+        </h3>
+        <p class={`mt-1 font-mono text-[11px] uppercase tracking-wider ${contextStyle}`}>
+          {contextIcon} {data.context}
+        </p>
+      </div>
     </div>
     {data.status && (
       <span class={`shrink-0 rounded-md border px-2 py-0.5 text-[10px] uppercase tracking-wider ${statusColor}`}>

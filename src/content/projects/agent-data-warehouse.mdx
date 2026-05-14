@@ -1,23 +1,24 @@
 ---
-title: "Pulse"
+title: "Agent IA — interrogation data warehouse"
 emoji: "🤖"
-tagline: "Agent IA agentique qui explore le data warehouse en langage naturel et répond aux questions business avec visualisations auto-générées."
+tagline: "Agent IA agentique qui explore un data warehouse en langage naturel et répond aux questions business avec visualisations auto-générées."
 category: "Agent IA / LLM"
 status: "Production"
 period: "2025 — présent"
 role: "Lead AI Engineer"
 company: "Meet My Mama"
+context: "Meet My Mama"
 tech: ["TypeScript", "React", "Supabase Edge Functions", "PostgreSQL", "OpenRouter", "DeepSeek", "Gemini", "MCP-like Tool Calling"]
-cover: "/projects/pulse-chat.png"
+cover: "/projects/agent-data-warehouse-chat.png"
 featured: true
 order: 1
 ---
 
 ## Le contexte
 
-Chez Meet My Mama, les équipes ops, sales et finance demandaient quotidiennement des extractions SQL à l'équipe data ("CA du mois ?", "Top 10 clients Q1 ?", "Taux de churn par cohorte ?"). Pulse a été conçu pour leur donner un accès **direct, autonome et fiable** au data warehouse — en langage naturel.
+Les équipes ops, sales et finance demandaient quotidiennement des extractions SQL à l'équipe data ("CA du mois ?", "Top 10 clients Q1 ?", "Taux de churn par cohorte ?"). L'agent a été conçu pour leur donner un accès **direct, autonome et fiable** au data warehouse — en langage naturel.
 
-## Ce que fait Pulse
+## Ce que fait l'agent
 
 Un agent IA **agentique** : le LLM n'a pas simplement accès au schéma. Il **raisonne en plusieurs étapes** :
 
@@ -57,19 +58,19 @@ Un agent IA **agentique** : le LLM n'a pas simplement accès au schéma. Il **ra
 6 outils exposés au LLM : `list_tables`, `describe_table`, `sample_rows`, `execute_sql`, `save_chart`, `validate_query`. L'agent choisit lui-même la séquence d'appels.
 
 ### Multi-agent router
-Le routeur classifie la requête entrante et la dispatche vers le bon agent (Pulse pour la data, Inside pour les questions sur l'outil interne).
+Le routeur classifie la requête entrante et la dispatche vers le bon agent (data warehouse vs questions sur les outils internes).
 
 ### Système d'apprentissage
 Les requêtes validées par les utilisateurs sont stockées et injectées en *few-shot* pour améliorer la précision sur des questions similaires.
 
 ### Bot Slack
-Pulse répond aussi directement dans Slack avec gestion de clarifications (l'agent pose une question quand la demande est ambiguë).
+L'agent répond aussi directement dans Slack avec gestion de clarifications (l'agent pose une question quand la demande est ambiguë).
 
 ### Aperçu en action
 
-Pulse renvoie systématiquement la donnée brute (table exportable en CSV) **et** une visualisation (KPI / chart) générée automatiquement. L'utilisateur peut valider ou rejeter la réponse — feedback qui alimente le système d'apprentissage.
+L'agent renvoie systématiquement la donnée brute (table exportable en CSV) **et** une visualisation (KPI / chart) générée automatiquement. L'utilisateur peut valider ou rejeter la réponse — feedback qui alimente le système d'apprentissage.
 
-<img src="/projects/pulse-data.png" alt="Pulse — résultat avec table de deals et KPI nombre de deals" loading="lazy" class="rounded-xl border border-[var(--color-border)] my-6" />
+<img src="/projects/agent-data-warehouse-data.png" alt="Résultat avec table de deals et KPI nombre de deals" loading="lazy" class="rounded-xl border border-[var(--color-border)] my-6" />
 
 ## Impact
 

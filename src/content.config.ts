@@ -14,6 +14,11 @@ const projects = defineCollection({
       "Produit",
       "Autre",
     ]),
+    context: z.enum([
+      "Meet My Mama",
+      "Personnel",
+      "Académique",
+    ]),
     status: z
       .enum(["Production", "En cours", "Académique", "Produit"])
       .optional(),
