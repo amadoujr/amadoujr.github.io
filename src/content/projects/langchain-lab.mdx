@@ -1,0 +1,64 @@
+---
+title: "LangChain Lab"
+emoji: "🧪"
+tagline: "Parcours hands-on LangChain / LangGraph : du premier agent au RAG conforme (DocuSafe), avec research chat public, citations et refus explicites."
+category: "Agent IA / LLM"
+status: "En cours"
+period: "2025 — 2026"
+context: "Personnel"
+role: "Personal project"
+tech: ["Python", "LangChain", "LangGraph", "FastAPI", "React", "Hugging Face", "Gemini", "uv"]
+cover: "/projects/langchain-lab.png"
+repoUrl: "https://github.com/amadoujr/langchain-lab"
+featured: true
+order: 4
+---
+
+## Le projet
+
+**langchain-lab** est un monorepo d’apprentissage orienté portfolio : quatre mini-projets qui enchaînent les briques utiles en prod — agent + tools, RAG classique, graphe de recherche web, puis assistant documentaire « conforme ».
+
+L’objectif n’est pas un notebook isolé, mais des apps relançables (CLI, API SSE, UI React) avec des contraintes réalistes : ancrage, grade, refus, rate limits, audit.
+
+## Le parcours
+
+| Étape | Focus |
+|---|---|
+| **01 — Agent basics** | Agent Gemini + tool HTTP + mémoire `InMemorySaver` |
+| **02 — RAG classique** | Chunking, embeddings locaux MiniLM, retrieval tool sur un corpus Gutenberg |
+| **03 — Research chat** | LangGraph : search → fetch → grade → rewrite/refuse, chat multi-tours, rate limits IP, UI |
+| **04 — DocuSafe** | RAG souverain sur politiques FR (classification, charte IA, RGPD) : citations, refuse, audit |
+
+## DocuSafe (étape 4)
+
+Pitch volontairement « entreprise » : répondre **uniquement** à partir d’un corpus interne. Si le grade estime que les extraits ne suffisent pas → message de conformité, pas d’invention.
+
+```
+question
+  → identity?  → accueil
+  → retrieve   (sémantique + lexical)
+  → grade
+       ├─ ok     → generate (+ citations)
+       └─ refuse → refus explicite
+  → audit JSONL
+```
+
+Stack notable :
+
+- Embeddings **locaux** (`all-MiniLM-L6-v2`)
+- LLM via **Hugging Face Inference** (Qwen) ou Gemini en fallback
+- FastAPI SSE + UI chat DocuSafe
+
+## Research chat (étape 3)
+
+Contrepoint de DocuSafe : corpus **ouvert** (web). Le graphe LangGraph gère retry / rewrite, le fallback `snippet_only` quand une page ne se scrape pas, et des quotas par IP pour une éventuelle démo publique (Docker déjà prêt).
+
+## Pourquoi c’est intéressant
+
+- Progression pédagogique claire (agent → RAG → graphe → conformité)
+- Patterns réutilisables au travail : grade/refuse, citations, audit, rate limiting
+- Code public et documenté : [github.com/amadoujr/langchain-lab](https://github.com/amadoujr/langchain-lab)
+
+## Suite
+
+Déployer au moins le research chat (03) en live, puis éventuellement DocuSafe en lecture seule — avant d’enchaîner sur d’autres graphes métier.
